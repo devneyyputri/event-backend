@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id Int @id @unique @default(autoincrement())
+  name String
+  email String 
+  password String
+  role String @default("user")
+  eventcreate Event[]
+  transaction Transaction[]
+  wallet Int @default(200000)
+  points Int @default(0)
+  created_at DateTime
+  updated_at DateTime @updatedAt
+
+}
+model Event{
+  id Int @id @unique @default(autoincrement())
+  organizer User @relation(fields: [organizerId], references: [id])
+  title String
+  description String
+  datetime String
+  location String
+  organizerId Int
+  availableseats Int
+  bookedseats Int @default(0)
+  transactions Transaction[]
+  price Int
+}
+
+model Transaction{
+  id Int @id @unique @default(autoincrement())
+  buyer User @relation(fields: [buyerId], references: [id])
+  buyerId Int
+  eventbought Event @relation(fields: [eventId], references: [id])
+  eventId Int
+  amount Int
+  points Int
+  money Int
+  total Int
+}
