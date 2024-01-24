@@ -17,7 +17,8 @@ const prisma = new PrismaClient();
 
 export async function register (req: Request, res : Response){
     try{
-        const {name, email , password, role} = req.body
+        const {name, email , password, role, refcode} = req.body
+        let disc = 0
 
         const finduser = await prisma.user.findFirst({
             where :{
@@ -30,6 +31,33 @@ export async function register (req: Request, res : Response){
                 data : {}
             })
         }
+        if (refcode){
+            const findcode= await prisma.user.findFirst({
+                where :{
+                    referalC: refcode
+                },
+            })
+            if (!findcode){
+                return res.status(400).send({
+                    message : "Code does not exist",
+                    data : refcode
+                })
+            }else{
+                const refID = findcode.id
+                const updatepoints = findcode.points + 10000
+                const givePoints = await prisma.user.update({
+                    where:{id: refID},
+                    data : {
+                        points : updatepoints
+                    }
+
+                })
+                console.log(givePoints )
+                disc += 10
+            }
+
+        }
+
         
 
         const salt = await genSalt(10)
@@ -38,17 +66,29 @@ export async function register (req: Request, res : Response){
         const createUser = await prisma.user.create(
             {
                 data :{
+                    referalC: "--------",
                     name : name,
                     email : email,
                     password : hashedPass,
                     role : role,
+                    discount : disc,
                     created_at : new Date()
                 }
             }
         )
+        const code = "USR" +  createUser.id.toString().padStart(5, '0')
+        const updatereferralC = await prisma.user.update({
+            where :{
+                id : createUser.id
+            },
+            data :{
+                referalC : code
+            }
+        })
+
         return res.status(200).send({
             message : "OK",
-            data : createUser
+            data : updatereferralC
         })
 
     }catch(err){

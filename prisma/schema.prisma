@@ -11,6 +11,7 @@ datasource db {
 }
 model User {
   id Int @id @unique @default(autoincrement())
+  referalC String
   name String
   email String 
   password String
@@ -18,7 +19,8 @@ model User {
   eventcreate Event[]
   transaction Transaction[]
   wallet Int @default(200000)
-  points Int @default(0)
+  points Int @default(10000)
+  discount Int @default(0)
   created_at DateTime
   updated_at DateTime @updatedAt
 
