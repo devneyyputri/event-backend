@@ -21,6 +21,8 @@ model User {
   wallet Int @default(200000)
   points Int @default(10000)
   discount Int @default(0)
+  pointsexp DateTime
+  discexp DateTime
   created_at DateTime
   updated_at DateTime @updatedAt
 
