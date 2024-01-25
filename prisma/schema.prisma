@@ -38,6 +38,7 @@ model Event{
   availableseats Int
   bookedseats Int @default(0)
   transactions Transaction[]
+  ctr CTR[]
   price Int
 }
 
@@ -51,4 +52,16 @@ model Transaction{
   points Int
   money Int
   total Int
+}
+model CTR{
+  id Int @id @unique@default(autoincrement())
+  event Event @relation(fields: [eventid],references: [id]) 
+  eventid Int
+  clicks Int
+  shown Int @default(0)
+  bought Int @default(0)
+  ymd String
+  yearmonth String
+  year String
+
 }

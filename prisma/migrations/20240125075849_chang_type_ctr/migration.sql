@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `ctr` MODIFY `year` VARCHAR(191) NOT NULL,
+    MODIFY `yearmonth` VARCHAR(191) NOT NULL,
+    MODIFY `ymd` VARCHAR(191) NOT NULL;

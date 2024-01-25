@@ -5,6 +5,8 @@ import * as EventControl  from "./../controllers/event.controller"
 const eventRouter : Router = express.Router()
 
 eventRouter.post("/create", EventControl.createEvent)
+eventRouter.get("/getall",EventControl.getEvent)
+eventRouter.post("/getone", EventControl.getOneEvent)
 
 
 

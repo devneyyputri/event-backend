@@ -31,6 +31,14 @@ export async function register (req: Request, res : Response){
                 data : {}
             })
         }
+        const current = new Date()
+        function exp(date = new Date()){
+            date.setDate (date.getDate()+ 90)
+            return date 
+        }
+        const expdate = exp()
+        let discexpdate = current
+
         if (refcode){
             const findcode= await prisma.user.findFirst({
                 where :{
@@ -48,11 +56,13 @@ export async function register (req: Request, res : Response){
                 const givePoints = await prisma.user.update({
                     where:{id: refID},
                     data : {
-                        points : updatepoints
+                        points : updatepoints,
+                        pointsexp: expdate,
                     }
 
                 })
                 console.log(givePoints )
+                discexpdate = expdate
                 disc += 10
             }
 
@@ -62,7 +72,6 @@ export async function register (req: Request, res : Response){
 
         const salt = await genSalt(10)
         const hashedPass = await hash (password, salt)
-
         const createUser = await prisma.user.create(
             {
                 data :{
@@ -72,7 +81,9 @@ export async function register (req: Request, res : Response){
                     password : hashedPass,
                     role : role,
                     discount : disc,
-                    created_at : new Date()
+                    created_at : current,
+                    pointsexp : current,
+                    discexp: discexpdate 
                 }
             }
         )
