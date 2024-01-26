@@ -89,10 +89,10 @@ export async function getOneEvent(req : Request, res : Response){
     try{
         const date = new Date()
         const day = date.getDate()
-        const month = date.getMonth() + 1
-        const year = date.getFullYear()
-        const ym = year.toString() + month.toString()
-        const ymd = ym + day.toString()
+        const month = date.getMonth() +12
+        const year = date.getFullYear() -1
+        const ym = year.toString() + "/" +month.toString()
+        const ymd = ym + "/"+ day.toString()
         const {eventid} = req.body
 
 
@@ -103,6 +103,7 @@ export async function getOneEvent(req : Request, res : Response){
         })
         const findCtr = await prisma.cTR.findFirst({
             where:{
+                eventid : eventid,
                 ymd : ymd,
                 yearmonth : ym,
                 year : year.toString()
@@ -167,5 +168,26 @@ export async function getOneEvent(req : Request, res : Response){
             message : JSON.stringify(error),
             data : "error getting data"
         })
+    }
+}export async function getmyevent(req : Request, res : Response){
+    try{
+        const {userID} = req.body
+        const getmyevents = await prisma.event.findMany({
+            where: { organizerId : userID
+            },
+            include :{
+                ctr : true
+            }
+        })
+        return res.status(200).send({
+            message : "ok",
+            data : getmyevents
+        })
+    }catch(error){
+        return res.status(500).send({
+            message : JSON.stringify(error),
+            data : "error getting data"
+        })
+
     }
 }

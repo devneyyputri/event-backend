@@ -24,10 +24,10 @@
     "typescript": "^5.3.3"
   },
   "devDependencies": {
-    "@prisma/client": "^5.8.1",
+    "@prisma/client": "^5.9.0-dev.58",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.5",
-    "prisma": "^5.8.1"
+    "prisma": "^5.9.0-dev.58"
   }
 }

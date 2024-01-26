@@ -1,5 +1,6 @@
 import express, { Router } from "express"
 import * as AuthControl from "./../controllers/auth.controller"
+import * as profileControl from "./../controllers/profile.controller"
 
 const authRouter : Router = express.Router()
 

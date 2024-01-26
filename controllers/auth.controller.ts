@@ -28,7 +28,7 @@ export async function register (req: Request, res : Response){
         if (finduser){
             return res.status(400).send({
                 message : "Email has already registerd",
-                data : {}
+                data : finduser
             })
         }
         const current = new Date()
@@ -150,7 +150,7 @@ export async function login( req : Request, res :Response){
             }
             })
         }
-        const jwtpayload = {email : email, role : finduser.role};
+        const jwtpayload = {email : email, role : finduser.role, id :finduser.id};
         const token = sign(jwtpayload, "your-key", {expiresIn : "1h"})
 
         
