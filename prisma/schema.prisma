@@ -46,8 +46,11 @@ model Transaction{
   id Int @id @unique @default(autoincrement())
   buyer User @relation(fields: [buyerId], references: [id])
   buyerId Int
+  buyermail String
   eventbought Event @relation(fields: [eventId], references: [id])
   eventId Int
+  eventtitle String
+  disc Int @default(0)
   amount Int
   points Int
   money Int

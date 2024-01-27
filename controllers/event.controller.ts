@@ -89,13 +89,13 @@ export async function getOneEvent(req : Request, res : Response){
     try{
         const date = new Date()
         const day = date.getDate()
-        const month = date.getMonth() +12
-        const year = date.getFullYear() -1
+        const month = date.getMonth() +1
+        const year = date.getFullYear() 
         const ym = year.toString() + "/" +month.toString()
         const ymd = ym + "/"+ day.toString()
         const {eventid} = req.body
 
-
+        console.log(req.body)
         const getEventData = await prisma.event.findUnique({
             where:{
                 id :   eventid
@@ -132,8 +132,7 @@ export async function getOneEvent(req : Request, res : Response){
                     ctr :true
                 }
             })
-            console.log(createCTR)
-            console.log(updateEvent)
+
         }else{
             const updateCtr = await prisma.cTR.update({
                 where :{
@@ -155,12 +154,12 @@ export async function getOneEvent(req : Request, res : Response){
                     ctr :true
                 }
             })
-            console.log(updateCtr)
-            console.log(updateEvent)
+
         }
+        
         return res.status(200).send({
             message : "OK",
-            data : getEventData
+            event: getEventData
         })
     }
     catch (error){
