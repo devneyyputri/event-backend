@@ -123,6 +123,44 @@ export async function payment(req : Request, res : Response){
                 transactions   : true
             }
         })
+        const date = new Date()
+        const day = date.getDate()
+        const month = date.getMonth() +1
+        const year = date.getFullYear() 
+        const ym = year.toString() + "/" +month.toString()
+        const ymd = ym + "/"+ day.toString()
+
+        const findCtr = await prisma.cTR.findFirst({
+            where:{
+                eventid : eventID,
+                ymd : ymd,
+                yearmonth : ym,
+                year : year.toString()
+            }
+        })
+        if(findCtr){
+            const updateCtr = await prisma.cTR.update({
+                where :{
+                    id : findCtr.id,
+                },
+                data :{
+                    bought : findCtr.bought + 1
+
+                }
+            })
+            const updateEvent = await prisma.event.update({
+                where : {id : eventID},
+                data : {
+                    ctr :{
+                        connect :[{id : updateCtr.id}]
+                    }
+                },
+                include :{
+                    ctr :true
+                }
+            })
+
+        }
         return res.status(200).send({
             message : "OK",
             data : createTransactions,
