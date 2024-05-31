@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 export async function getSecretP( req : Request, res :Response) {
     return res.status(200).send({
-        message : "OK",
+        message : "success",
         data : [
             {
                 name: "product user 1",

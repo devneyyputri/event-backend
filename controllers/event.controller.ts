@@ -179,7 +179,7 @@ export async function getOneEvent(req : Request, res : Response){
             }
         })
         return res.status(200).send({
-            message : "ok",
+            message : "success",
             data : getmyevents
         })
     }catch(error){

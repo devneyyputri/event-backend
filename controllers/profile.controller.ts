@@ -19,7 +19,7 @@ export async function Userprofile (req : Request, res : Response){
             }
         })
         return res.status(200).send({
-            message : "ok",
+            message : "success",
             profile : data
         })
 

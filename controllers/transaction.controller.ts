@@ -162,7 +162,7 @@ export async function payment(req : Request, res : Response){
 
         }
         return res.status(200).send({
-            message : "OK",
+            message : "success",
             data : createTransactions,
             data1 : updateUser,
             data2 : updateEvents
